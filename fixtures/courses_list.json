@@ -1,0 +1,20 @@
+[
+{
+  "model": "materials.course",
+  "pk": 1,
+  "fields": {
+    "title": "Школьные предметы",
+    "image": "",
+    "description": "5-9 класс."
+  }
+},
+{
+  "model": "materials.course",
+  "pk": 2,
+  "fields": {
+    "title": "Курс",
+    "image": "",
+    "description": "Для школьников"
+  }
+}
+]
