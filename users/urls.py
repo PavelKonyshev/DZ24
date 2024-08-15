@@ -11,25 +11,25 @@ from users.views import PaymentListAPIView, UserViewSet
 app_name = UsersConfig.name
 
 router = DefaultRouter()
-router.register(r"", UserViewSet, basename="users")
-user_create = UserViewSet.as_view({"post": "create"})
+router.register(r'', UserViewSet, basename='users')
+user_create = UserViewSet.as_view({'post': 'create'})
+user_detail = UserViewSet.as_view({'get': 'retrieve'})
+user_update = UserViewSet.as_view({
+    'put': 'update',
+    'patch': 'partial_update'
+})
+user_delete = UserViewSet.as_view({'delete': 'destroy'})
 
 
-urlpatterns = (
-    format_suffix_patterns(
-        [
-            path("register/", user_create, name="register"),
-            path(
-                "login/",
-                TokenObtainPairView.as_view(permission_classes=(AllowAny,)),
-                name="login",
-            ),
-            path(
-                "token/refresh/",
-                TokenRefreshView.as_view(permission_classes=(AllowAny,)),
-                name="token_refresh",
-            ),
-        ]
-    )
-    + router.urls
-)
+urlpatterns = format_suffix_patterns([
+    path('register/', user_create, name='register'),
+    path('detail/<int:pk>/', user_detail, name='user-detail'),
+    path('update/<int:pk>/', user_update, name='user-detail'),
+    path('delete/<int:pk>/', user_delete, name='user-delete'),
+
+    path('payment/', PaymentListAPIView.as_view(), name='payment-list'),
+
+    path('token/', TokenObtainPairView.as_view(permission_classes=(AllowAny,)), name='token'),
+    path('token/refresh/', TokenRefreshView.as_view(permission_classes=(AllowAny,)), name='token_refresh'),
+]) + router.urls
+
