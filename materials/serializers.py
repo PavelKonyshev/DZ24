@@ -17,16 +17,14 @@ class CourseSerializer(ModelSerializer):
 
 class CourseDatailSerializer(ModelSerializer):
     course_count = SerializerMethodField()
-    lesson = LessonSerializer(source='lesson_set', many=True, read_only=True)
+    lesson = LessonSerializer(source="lesson_set", many=True, read_only=True)
 
     class Meta:
         model = Course
-        fields = '__all__'
+        fields = "__all__"
 
     def get_course_count(self, cont):
         return Lesson.objects.filter(course=cont).count()
-
-
 
 
 class LessonSerializer(ModelSerializer):
