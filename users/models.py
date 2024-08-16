@@ -69,3 +69,6 @@ class Payment(models.Model):
     class Meta:
         verbose_name = "оплата"
         verbose_name_plural = "оплаты"
+
+    def __str__(self):
+        return f'{self.user.email} - {self.lesson_paid.title if self.lesson_paid else self.course_paid.title}'
