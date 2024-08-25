@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-
+from django_celery_beat.utils import now
 from materials.models import Course, Lesson
 
 NULLABLE = {"blank": True, "null": True}
@@ -33,6 +33,7 @@ class User(AbstractUser):
         verbose_name="Аватар",
         help_text="Загрузите аватар",
     )
+    last_login = models.DateTimeField(default=now, verbose_name="Время последнего посещения")
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

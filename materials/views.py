@@ -12,7 +12,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import generics, status, viewsets
-
+from materials.tasks import sending_update_course
 
 class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
@@ -36,6 +36,11 @@ class CourseViewSet(viewsets.ModelViewSet):
                 IsOwner | ~IsModerator,
             )  # т.е. только владелец может удалять курс
         return super().get_permissions()
+
+    def perform_update(self, serializer):
+        course = serializer.save()
+        sending_update_course.delay(course)
+        course.save()
 
 
 class LessonCreateApiView(generics.CreateAPIView):
